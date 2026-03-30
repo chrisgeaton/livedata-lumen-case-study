@@ -36,10 +36,13 @@ Perioperative staff can ask plain-language questions and receive immediate, data
 ### Agentic Tool-Calling Loop
 The core of the system is a Claude Sonnet agent running on AWS Bedrock with access to a library of MCP tools. The agent decides which tools to call, calls them with the right parameters, and synthesizes the results into a coherent response — without the user knowing anything about the underlying data structure.
 
-```
-User Question → Claude (Bedrock) → Tool Selection → Tool Execution → Response
-                      ↑                                    |
-                      └────────────── Loop ────────────────┘
+```mermaid
+flowchart LR
+    A[User Question] --> B[Claude on Bedrock]
+    B --> C[Tool Selection]
+    C --> D[Tool Execution]
+    D --> E[Response]
+    D -->|loop| B
 ```
 
 ### Multi-Hospital Config System
@@ -58,31 +61,14 @@ Usage statistics, cost tracking per query, request logs, and error monitoring �
 
 ## Architecture
 
-```
-┌────────────────────────────────────────────────────┐
-│                   Chat UI                           │
-│   Natural language input / conversation display     │
-│   Tool call visibility / Admin dashboard            │
-└──────────────────────┬─────────────────────────────┘
-                       │
-┌──────────────────────▼─────────────────────────────┐
-│              Express.js Server                      │
-│   POST /chat   GET /admin/stats   GET /admin/logs   │
-└──────────┬────────────────────────┬────────────────┘
-           │                        │
-┌──────────▼──────────┐  ┌──────────▼──────────────┐
-│    AWS Bedrock       │  │      MCP Server          │
-│  Claude Sonnet 4.5  │  │  Tool implementations    │
-│  Converse API       │  │  Structured responses    │
-│  Token tracking     │  │  Shared across sites     │
-└──────────┬──────────┘  └─────────────────────────┘
-           │
-┌──────────▼──────────────────────────────────────┐
-│              Tool Library (MCP Tools)            │
-│  block_util_summary / by_block_group / by_surgeon│
-│  drill_down / (future: additional metrics)       │
-│  Currently: stubbed data → Future: Insights APIs │
-└─────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    A["Chat UI\nNatural language input · Tool call visibility\nAdmin dashboard"] --> B["Express.js Server\nPOST /chat · GET /admin/stats · GET /admin/logs"]
+    B --> C["AWS Bedrock\nClaude Sonnet 4.5 · Converse API\nToken tracking"]
+    B --> D["MCP Server\nTool implementations\nShared across hospital sites"]
+    C <-->|tool calls| D
+    D --> E["Tool Library\nblock_util_summary · by_block_group\nby_surgeon · drill_down"]
+    B --> F["Usage Logging\nQuery patterns · Tool routing\nTraining data foundation"]
 ```
 
 ---
