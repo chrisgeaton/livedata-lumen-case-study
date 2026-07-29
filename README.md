@@ -94,7 +94,7 @@ A fine-tuned perioperative model trained on real query patterns from 90+ hospita
 Using the Model Context Protocol for tool definitions means tools are reusable across deployments, testable in isolation, and composable with other AI systems — including the internal context engine. It also positions the tool library as a standalone asset the engineering team can extend independently.
 
 **2. Config-driven multi-tenancy**
-100+ hospitals served from a single deployment. Site configuration files define what's available where — no custom code per site. This was a non-negotiable design constraint given the scale of LiveData's hospital network.
+90+ hospitals served from a single deployment. Site configuration files define what's available where — no custom code per site. This was a non-negotiable design constraint given the scale of LiveData's hospital network.
 
 **3. AWS Bedrock over direct API**
 Using Bedrock gives the engineering team a path to enterprise compliance controls, audit logging, and VPC integration that a direct Anthropic API call doesn't. Building on Bedrock from day one meant the production transition didn't require re-architecting the AI layer.
@@ -111,3 +111,8 @@ Most POCs don't think about training data. This one was designed with the SLM ro
 - Multi-hospital config system proven: one deployment, unlimited sites via config
 - Usage logging infrastructure in place, capturing perioperative query patterns at scale
 - Foundation laid for a domain-specific SLM trained on real hospital data
+
+
+---
+
+More from Chris Eaton, VP of Product at LiveData: [chriseatonai.com](https://chriseatonai.com) &middot; [LinkedIn](https://www.linkedin.com/in/chris-eaton-ai/)
