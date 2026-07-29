@@ -1,8 +1,8 @@
-# Case Study: Lumen — LiveData's First AI Product
+# Case Study: Lumen, LiveData's First AI Product
 
 **Role:** Product Manager (architecture + POC build)
 **Stack:** TypeScript, Express.js, AWS Bedrock (Claude Sonnet), MCP Protocol
-**Status:** POC complete — engineering team currently building production version on this architecture
+**Status:** Live in the Insights product as the AI Advisor, running at select commercial hospitals and built on this POC architecture. Engineering is expanding the rollout.
 
 > This is a case study. No proprietary source code or customer data is included. See `NOTICE.md`.
 
@@ -18,7 +18,7 @@ Most OR directors don't have time for that. A surgeon asks a question before a b
 
 ## My Role
 
-I defined the architecture and built the proof of concept. The engineering team is now building the production version using this architecture as the foundation. Lumen is LiveData's first AI product.
+I defined the architecture and built the proof of concept. Engineering built the production version on that foundation, and it is now live in the Insights product as the AI Advisor at select commercial hospitals. Lumen is LiveData's first AI product.
 
 This is an unusual outcome for a PM: I specced the product, proved the concept in working code, and handed the engineering team something they could build on rather than a requirements document they had to interpret.
 
@@ -52,7 +52,7 @@ A single deployment serves hospitals with different data endpoints, different me
 Tools are organized into "dashboard manifests" — named collections of tools available for a given context (block utilization review, turnover analysis, surgeon scorecards). This lets the system surface the right capabilities for the right workflow without overwhelming the agent with irrelevant tools.
 
 ### Usage Logging (Training Data Foundation)
-Every query, tool call, and response is logged. This is deliberately designed for future model training: the logs capture how perioperative staff actually phrase questions, which metrics they ask about together, and what the correct tool routing looks like. That dataset — from 90+ hospitals — is the foundation for the next phase.
+Every query, tool call, and response is logged. This is deliberately designed for future model training: the logs capture how perioperative staff actually phrase questions, which metrics they ask about together, and what the correct tool routing looks like. As the AI Advisor expands across LiveData's hospital network, that dataset becomes the foundation for the next phase.
 
 ### Admin Dashboard
 Usage statistics, cost tracking per query, request logs, and error monitoring — giving the team visibility into how the system is being used before it goes to production.
@@ -79,12 +79,12 @@ The POC isn't just a demo. Every query logs the data needed to train a domain-sp
 
 | Phase | What's Happening |
 |-------|-----------------|
-| **POC (now)** | Chat works. Every query logged. |
-| **Pilot** | Real API integration. Production usage at select sites. |
+| **Live (now)** | AI Advisor running at select commercial hospitals. Every query logged. |
+| **Expansion** | Rollout across more of LiveData's hospital network. |
 | **Analysis** | Query patterns analyzed. SLM training validated. |
 | **V2** | Fine-tuned perioperative SLM routes queries; Claude handles reasoning. |
 
-A fine-tuned perioperative model trained on real query patterns from 90+ hospitals — how OR directors phrase questions, which metrics they ask about together, the vocabulary of surgical workflow — is a dataset competitors would need years to replicate. The POC is accumulating that advantage with every query.
+A fine-tuned perioperative model trained on real query patterns from across LiveData's 90+ hospital network (how OR directors phrase questions, which metrics they ask about together, the vocabulary of surgical workflow) would be a dataset competitors would need years to replicate. The AI Advisor logs that data from day one, so the advantage compounds as the rollout expands.
 
 ---
 
@@ -94,7 +94,7 @@ A fine-tuned perioperative model trained on real query patterns from 90+ hospita
 Using the Model Context Protocol for tool definitions means tools are reusable across deployments, testable in isolation, and composable with other AI systems — including the internal context engine. It also positions the tool library as a standalone asset the engineering team can extend independently.
 
 **2. Config-driven multi-tenancy**
-90+ hospitals served from a single deployment. Site configuration files define what's available where — no custom code per site. This was a non-negotiable design constraint given the scale of LiveData's hospital network.
+Architected to serve LiveData's full 90+ hospital network from a single deployment. Site configuration files define what's available where, with no custom code per site. This was a non-negotiable design constraint given the scale of the network.
 
 **3. AWS Bedrock over direct API**
 Using Bedrock gives the engineering team a path to enterprise compliance controls, audit logging, and VPC integration that a direct Anthropic API call doesn't. Building on Bedrock from day one meant the production transition didn't require re-architecting the AI layer.
@@ -106,11 +106,11 @@ Most POCs don't think about training data. This one was designed with the SLM ro
 
 ## Outcomes
 
-- Architecture validated and adopted by engineering team for production build
-- LiveData's first AI product — moving from dashboards to natural language queries
-- Multi-hospital config system proven: one deployment, unlimited sites via config
-- Usage logging infrastructure in place, capturing perioperative query patterns at scale
-- Foundation laid for a domain-specific SLM trained on real hospital data
+- Live in Insights as the AI Advisor at select commercial hospitals, built on the POC architecture I proved out
+- LiveData's first AI product: moving from dashboards to natural language queries
+- Multi-hospital config system: one deployment scales across sites via config, no per-site code
+- Usage logging in place, capturing real perioperative query patterns as the rollout expands
+- Foundation laid for a domain-specific SLM trained on real hospital query data
 
 
 ---
